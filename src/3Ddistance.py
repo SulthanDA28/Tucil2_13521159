@@ -1,4 +1,5 @@
 import random
+import platform
 import time
 import numpy as np
 import matplotlib.pyplot as plt
@@ -12,10 +13,41 @@ class Point:
         self.z = z
     def __lt__(self,other):
         return self.x < other.x 
+    def __le__(self,other):
+        return self.x <= other.x
+    
 
 def distance(P,Q):
     hasil = ((P.x-Q.x)**2+(P.y-Q.y)**2+(P.z-Q.z)**2)**(1/2)
     return hasil
+
+def mergeSort(x):
+    if(len(x)>1):
+        tengah = len(x)//2
+        kiri = x[:tengah]
+        kanan = x[tengah:]
+        mergeSort(kanan)
+        mergeSort(kiri)
+        i = 0
+        j = 0
+        k = 0
+        while(i<len(kiri) and j<len(kanan)):
+            if(kiri[i]<=kanan[j]):
+                x[k] = kiri[i]
+                i+=1
+            else:
+                x[k] = kanan[j]
+                j+=1
+            k+=1
+        while i<len(kiri):
+            x[k] = kiri[i]
+            i+=1
+            k+=1
+        while j<len(kanan):
+            x[k] = kanan[j]
+            j+=1
+            k+=1
+
 
 def bruteForceDistance(P):
     minim = float("inf")
@@ -101,6 +133,17 @@ print("╚═════╝░╚═════╝░  ░╚════�
 
 
 count = 0
+print("Selamat datang di 3D Closest Point")
+print("Berikut Spesifikasi Sistem Anda:")
+my_system = platform.uname()
+ 
+print(f"System: {my_system.system}")
+print(f"Node Name: {my_system.node}")
+print(f"Release: {my_system.release}")
+print(f"Version: {my_system.version}")
+print(f"Machine: {my_system.machine}")
+print(f"Processor: {my_system.processor}")
+print("\n")
 banyakinput = int(input("Masukkan banyak titik yang akan diuji = "))
 listpoint = []
 for i in range(banyakinput):
@@ -109,31 +152,27 @@ for i in range(banyakinput):
     c = random.randint(-100000,100000)
     koor = Point(x=a,y=b,z=c)
     listpoint.append(koor)
-listpoint.sort()
+mergeSort(listpoint)
 start = time.time()
 hasildnc = dividenConquer(listpoint)
 end = time.time()
 waktudnc = end-start
 print("Jarak terdekat antar titik yang ditemukan : ")
-print("--------------------------------------------------")
 print("----------------Divide and Conquer----------------")
-print("--------------------------------------------------")
 print("Divide and Conquer =",hasildnc)
 print("Time Execution =",waktudnc)
 print("Banyak operasi =",count)
-print("--------------------------------------------------")
 print("-------------------Brute Force--------------------")
-print("--------------------------------------------------")
 print("Sebentar,lagi ngitung yang bruteforce :D")
 hasilbruteForce,waktu,koor1,koor2,oprbrt = bruteForceDistance(listpoint)
 print("Brute Force =",hasilbruteForce)
 print("Time Execution =",waktu)
 print("Banyak operasi =",oprbrt)
 print("--------------------------------------------------")
-print("--------------------------------------------------")
 print("Sepasang titik terdekat:")
 print("Titik 1 = ("+str(koor1.x)+","+str(koor1.y)+","+str(koor1.z)+")")
 print("Titik 2 = ("+str(koor2.x)+","+str(koor2.y)+","+str(koor2.z)+")")
+
 
 tanya = input("Apakah ingin melihat plot dari titik titik tersebut(y/n)=")
 if(tanya=='y' or tanya=='Y'):
