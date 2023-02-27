@@ -19,6 +19,7 @@ def distance(P,Q):
 
 def bruteForceDistance(P):
     minim = float("inf")
+    count = 0
     start = time.time()
     minimkoor1 = Point(x=0,y=0,z=0)
     minimkoor2 = Point(x=0,y=0,z=0)
@@ -27,6 +28,7 @@ def bruteForceDistance(P):
             if(i==j):
                 continue
             else:
+                count+=1
                 hitung = distance(P[i],P[j])
                 if(minim>hitung):
                     minim = hitung
@@ -34,7 +36,7 @@ def bruteForceDistance(P):
                     minimkoor2 = Point(x=P[j].x,y=P[j].y,z=P[j].z)
     end = time.time()
     waktu = end-start
-    return minim,waktu,minimkoor1,minimkoor2
+    return minim,waktu,minimkoor1,minimkoor2,count
 
 def threepoint(arr):
     min12 = distance(arr[0],arr[1])
@@ -89,6 +91,15 @@ def dividenConquer(arr):
 #--------Hitung Hitung--------
 #-----------------------------
 
+
+print("██████╗░██████╗░  ░█████╗░██╗░░░░░░█████╗░░██████╗███████╗░██████╗████████╗  ██████╗░░█████╗░██╗███╗░░██╗████████╗")
+print("╚════██╗██╔══██╗  ██╔══██╗██║░░░░░██╔══██╗██╔════╝██╔════╝██╔════╝╚══██╔══╝  ██╔══██╗██╔══██╗██║████╗░██║╚══██╔══╝")
+print("░█████╔╝██║░░██║  ██║░░╚═╝██║░░░░░██║░░██║╚█████╗░█████╗░░╚█████╗░░░░██║░░░  ██████╔╝██║░░██║██║██╔██╗██║░░░██║░░░")
+print("░╚═══██╗██║░░██║  ██║░░██╗██║░░░░░██║░░██║░╚═══██╗██╔══╝░░░╚═══██╗░░░██║░░░  ██╔═══╝░██║░░██║██║██║╚████║░░░██║░░░")
+print("██████╔╝██████╔╝  ╚█████╔╝███████╗╚█████╔╝██████╔╝███████╗██████╔╝░░░██║░░░  ██║░░░░░╚█████╔╝██║██║░╚███║░░░██║░░░")
+print("╚═════╝░╚═════╝░  ░╚════╝░╚══════╝░╚════╝░╚═════╝░╚══════╝╚═════╝░░░░╚═╝░░░  ╚═╝░░░░░░╚════╝░╚═╝╚═╝░░╚══╝░░░╚═╝░░░")
+
+
 count = 0
 banyakinput = int(input("Masukkan banyak titik yang akan diuji = "))
 listpoint = []
@@ -104,17 +115,26 @@ hasildnc = dividenConquer(listpoint)
 end = time.time()
 waktudnc = end-start
 print("Jarak terdekat antar titik yang ditemukan : ")
+print("--------------------------------------------------")
+print("----------------Divide and Conquer----------------")
+print("--------------------------------------------------")
 print("Divide and Conquer =",hasildnc)
 print("Time Execution =",waktudnc)
 print("Banyak operasi =",count)
-print("----------------------------------------------")
+print("--------------------------------------------------")
+print("-------------------Brute Force--------------------")
+print("--------------------------------------------------")
 print("Sebentar,lagi ngitung yang bruteforce :D")
-hasilbruteForce,waktu,koor1,koor2 = bruteForceDistance(listpoint)
+hasilbruteForce,waktu,koor1,koor2,oprbrt = bruteForceDistance(listpoint)
 print("Brute Force =",hasilbruteForce)
 print("Time Execution =",waktu)
+print("Banyak operasi =",oprbrt)
+print("--------------------------------------------------")
+print("--------------------------------------------------")
+print("Sepasang titik terdekat:")
+print("Titik 1 = ("+str(koor1.x)+","+str(koor1.y)+","+str(koor1.z)+")")
+print("Titik 2 = ("+str(koor2.x)+","+str(koor2.y)+","+str(koor2.z)+")")
 
-
-hasilbruteForce,waktu,koor1,koor2 = bruteForceDistance(listpoint)
 tanya = input("Apakah ingin melihat plot dari titik titik tersebut(y/n)=")
 if(tanya=='y' or tanya=='Y'):
     listx = []
