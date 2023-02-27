@@ -145,6 +145,9 @@ print(f"Machine: {my_system.machine}")
 print(f"Processor: {my_system.processor}")
 print("\n")
 banyakinput = int(input("Masukkan banyak titik yang akan diuji = "))
+while(banyakinput<=1):
+    print("Masukan salah, input harus lebih dari 1")
+    banyakinput = int(input("Masukkan banyak titik yang akan diuji = "))
 listpoint = []
 for i in range(banyakinput):
     a = random.randint(-100000,100000)
