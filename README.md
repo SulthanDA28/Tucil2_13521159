@@ -1,5 +1,5 @@
 # Tucil2_13521159
-## Tugas Kecil Strategi Algoritma 2211
+## Tugas Kecil Strategi Algoritma IF-2211
 ### Pencarian Titik Terdekat pada Bidang 3 Dimensi Dengan Algoritma Divide and Conquer
 
 <br>
