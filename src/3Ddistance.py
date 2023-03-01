@@ -7,19 +7,27 @@ from mpl_toolkits import mplot3d
 
 
 class Point:
-    def __init__(self,x,y,z):
-        self.x = x
-        self.y = y
-        self.z = z
+    def __init__(self):
+        self.arr=[]
     def __lt__(self,other):
-        return self.x < other.x 
+        return self.arr[0] < other.arr[0] 
     def __le__(self,other):
-        return self.x <= other.x
+        return self.arr[0] <= other.arr[0]
+    def __eq__(self,other):
+        sama = True
+        for i in range(len(self.arr)):
+            if(self.arr[i]!=other.arr[i]):
+                sama = False
+                break
+        return sama
     
 
 def distance(P,Q):
-    hasil = ((P.x-Q.x)**2+(P.y-Q.y)**2+(P.z-Q.z)**2)**(1/2)
-    return hasil
+    hasil = 0
+    for i in range(len(P.arr)):
+        hasil += (P.arr[i]-Q.arr[i])**2
+    akhir = hasil**(0.5)
+    return akhir
 
 def mergeSort(x):
     if(len(x)>1):
@@ -53,8 +61,8 @@ def bruteForceDistance(P):
     minim = float("inf")
     count = 0
     start = time.time()
-    minimkoor1 = Point(x=0,y=0,z=0)
-    minimkoor2 = Point(x=0,y=0,z=0)
+    minimkoor1 = Point()
+    minimkoor2 = Point()
     for i in range(len(P)):
         for j in range(len(P)):
             if(i==j):
@@ -64,11 +72,13 @@ def bruteForceDistance(P):
                 hitung = distance(P[i],P[j])
                 if(minim>hitung):
                     minim = hitung
-                    minimkoor1 = Point(x=P[i].x,y=P[i].y,z=P[i].z)
-                    minimkoor2 = Point(x=P[j].x,y=P[j].y,z=P[j].z)
+                    minimkoor1 = P[i]
+                    minimkoor2 = P[j]
     end = time.time()
     waktu = end-start
     return minim,waktu,minimkoor1,minimkoor2,count
+
+
 
 def threepoint(arr):
     min12 = distance(arr[0],arr[1])
@@ -76,17 +86,18 @@ def threepoint(arr):
     min13 = distance(arr[0],arr[2])
     minakhir = min(min12,min23,min13)
     return minakhir
+
 def cariTengah(arr,minsmntr):
     batas = 0
     if(len(arr)%2==1):
-        batas = arr[len(arr)//2].x
+        batas = arr[len(arr)//2].arr[0]
     else:
-        batas = (arr[len(arr)//2-1].x + arr[(len(arr)//2)].x)/2
+        batas = (arr[len(arr)//2-1].arr[0] + arr[(len(arr)//2)].arr[0])/2
     batasbawah = batas - minsmntr
     batasatas = batas + minsmntr
     termasuk = []
     for i in range (len(arr)):
-        if(arr[i].x>batasbawah and arr[i].x<batasatas):
+        if(arr[i].arr[0]>batasbawah and arr[i].arr[0]<batasatas):
             termasuk.append(arr[i])
     return termasuk
 
@@ -119,6 +130,8 @@ def dividenConquer(arr):
         hasilakhir = min(minim,hasilmintengah)
         return hasilakhir
 
+
+
 #-----------------------------
 #--------Hitung Hitung--------
 #-----------------------------
@@ -148,13 +161,18 @@ banyakinput = int(input("Masukkan banyak titik yang akan diuji = "))
 while(banyakinput<=1):
     print("Masukan salah, input harus lebih dari 1")
     banyakinput = int(input("Masukkan banyak titik yang akan diuji = "))
+banyakdimns = int(input("Masukkan banyak dimensi yang ingin diuji = "))
+while(banyakdimns<1):
+    print("Masukan salah, input harus lebih dari 0")
+    banyakdimns = int(input("Masukkan banyak dimensi yang ingin diuji = "))
 listpoint = []
+titik = Point()
 for i in range(banyakinput):
-    a = random.randint(-100000,100000)
-    b = random.randint(-100000,100000)
-    c = random.randint(-100000,100000)
-    koor = Point(x=a,y=b,z=c)
-    listpoint.append(koor)
+    for j in range(banyakdimns):
+        rand = random.randint(-100000,100000)
+        titik.arr.append(rand)
+    listpoint.append(titik)
+    titik = Point()
 mergeSort(listpoint)
 start = time.time()
 hasildnc = dividenConquer(listpoint)
@@ -173,47 +191,48 @@ print("Time Execution =",waktu)
 print("Banyak operasi =",oprbrt)
 print("--------------------------------------------------")
 print("Sepasang titik terdekat:")
-print("Titik 1 = ("+str(koor1.x)+","+str(koor1.y)+","+str(koor1.z)+")")
-print("Titik 2 = ("+str(koor2.x)+","+str(koor2.y)+","+str(koor2.z)+")")
+print("Titik 1 =",koor1.arr)
+print("Titik 2 =",koor2.arr)
 
+if(banyakdimns == 3):
+    tanya = input("Apakah ingin melihat plot dari titik titik tersebut(y/n)=")
+    if(tanya=='y' or tanya=='Y'):
+        listx = []
+        listy = []
+        listz = []
 
-tanya = input("Apakah ingin melihat plot dari titik titik tersebut(y/n)=")
-if(tanya=='y' or tanya=='Y'):
-    listx = []
-    listy = []
-    listz = []
+        for i in range(len(listpoint)):
+            if(listpoint[i]==koor1 or listpoint[i]==koor2):
+                continue
+            else:
+                listx.append(listpoint[i].arr[0])
+                listy.append(listpoint[i].arr[1])
+                listz.append(listpoint[i].arr[2])
 
-    for i in range(len(listpoint)):
-        if((listpoint[i].x==koor1.x and listpoint[i].y==koor1.y and listpoint[i].z==koor1.z) or (listpoint[i].x==koor2.x and listpoint[i].y==koor2.y and listpoint[i].z==koor2.z)):
-            continue
-        else:
-            listx.append(listpoint[i].x)
-            listy.append(listpoint[i].y)
-            listz.append(listpoint[i].z)
+        numx = np.array(listx)
+        numy = np.array(listy)
+        numz = np.array(listz)
 
-    numx = np.array(listx)
-    numy = np.array(listy)
-    numz = np.array(listz)
+        hasilkoorx = np.array([koor1.arr[0],koor2.arr[0]])
+        hasilkoory = np.array([koor1.arr[1],koor2.arr[1]])
+        hasilkoorz = np.array([koor1.arr[2],koor2.arr[2]])
 
-    hasilkoorx = np.array([koor1.x,koor2.x])
-    hasilkoory = np.array([koor1.y,koor2.y])
-    hasilkoorz = np.array([koor1.z,koor2.z])
+        fig = plt.figure()
 
-    fig = plt.figure()
+        project  =fig.add_subplot(121,projection = "3d")
+        project.set_title("All Points")
+        project.scatter(hasilkoorx,hasilkoory,hasilkoorz,c = "b")
+        project.scatter(numx,numy,numz,c = "r")
+        project.plot(hasilkoorx,hasilkoory,hasilkoorz,c = "b")
 
-    project  =fig.add_subplot(121,projection = "3d")
-    project.set_title("All Points")
-    project.scatter(hasilkoorx,hasilkoory,hasilkoorz,c = "b")
-    project.scatter(numx,numy,numz,c = "r")
-    project.plot(hasilkoorx,hasilkoory,hasilkoorz,c = "b")
+        project2  =fig.add_subplot(122,projection = "3d")
+        project2.set_title("2 Point Nearest")
+        project2.scatter(hasilkoorx,hasilkoory,hasilkoorz,c = "b")
+        project2.plot(hasilkoorx,hasilkoory,hasilkoorz,c = "b")
 
-    project2  =fig.add_subplot(122,projection = "3d")
-    project2.set_title("2 Point Nearest")
-    project2.scatter(hasilkoorx,hasilkoory,hasilkoorz,c = "b")
-    project2.plot(hasilkoorx,hasilkoory,hasilkoorz,c = "b")
-
-    plt.show()
+        plt.show()
+    else:
+        print("Ok, titik titik tidak diplotkan. Program telah berakhir")
 else:
-    print("Ok, titik titik tidak diplotkan. Program telah berakhir")
-
+    print("Karena banyak dimensi tidak sama dengan 3, maka titik titik tidak dapat diplot")
 
