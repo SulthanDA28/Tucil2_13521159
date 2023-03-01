@@ -50,9 +50,10 @@ Cara menjalankan program 3D Closest Point sebagai berikut:
 - Pertama clone program dari repository ini
 - Jika ingin menjalankan program melalui VS Code, buka file src lalu buka file 3Ddistance.py. Run pada file tersebut di VS Code
 - Jika ingin langsung memakai di file exe, buka file bin dan jalankan file 3Ddistance.exe
-- Jika sudah masuk ke dalam program, program akan meminta banyaknya titik yang akan diuji
+- Jika sudah masuk ke dalam program, program akan meminta banyaknya titik yang akan diuji dan dimensi yang akan diuji
 - Apabila sudah menginput, program akan membuat titik titik sebanyak input secara random
 - Program akan mencari jarak 2 titik terdekat dengan menggunakan algoritma divide and conquer dan brute force sekaligus banyak operasi dan time execution pada tiap algoritma
 - Lalu program akan menanyakan apakah ingin melihat titik titik tersebut ke dalam plot scatter diagram atau tidak.
 - Jika iya, tekan y atau Y lalu program akan menampilkan plot semua titik
 - Jika tidak, tekan selain y atau Y, program telah berakhir
+- Untuk dimensi yang lebih dari 3 atau kirang dari 3, titik titik tidak dapat diplotkan
